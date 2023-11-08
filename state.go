@@ -1308,7 +1308,10 @@ func (m *Memberlist) deadNode(d *dead) {
 
 	// Notify of death
 	if m.config.Events != nil {
-		m.config.Events.NotifyLeave(&state.Node)
+		// temp fix: passing real state of the node
+		copyNode := state.Node
+		copyNode.State = state.State
+		m.config.Events.NotifyLeave(&copyNode)
 	}
 }
 
